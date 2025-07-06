@@ -1,8 +1,13 @@
-import tkinter  as tk
-from tkinter import messagebox, simpledialog, ttk
+import tkinter as tk
+from tkinter import messagebox, ttk, simpledialog
+from api_keys_manager import load_keys, save_keys
+from dbf_handler import process_all_dbf_files
+from excel_handler import read_excel_and_upload
+from datappm_sync import sync_excel_to_sql, sync_sql_to_excel, compare_excel_sql
+from finmap_loader import load_finmap_to_sql
 import json
 import os
-
+import config  
 KEYS_FILE = "api_keys.json"
 
 # --- FUNCTIONS ---
@@ -65,6 +70,60 @@ def update_combobox():
 def run_all_tasks():
     messagebox.showinfo("Start", "Simulation: All tasks running...")
 
+
+def edit_db_config():
+    new_server = simpledialog.askstring("Edit Server", "Enter new server:", initialvalue=config.server)
+    new_db = simpledialog.askstring("Edit Database", "Enter new database:", initialvalue=config.database)
+    new_user = simpledialog.askstring("Edit Username", "Enter new username:", initialvalue=config.username)
+    new_pass = simpledialog.askstring("Edit Password", "Enter new password:", initialvalue=config.password)
+
+    if new_server and new_db and new_user and new_pass:
+        lines = []
+        with open("config.py", "r", encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("server ="):
+                    line = f"server = '{new_server}'\n"
+                elif line.startswith("database ="):
+                    line = f"database = '{new_db}'\n"
+                elif line.startswith("username ="):
+                    line = f"username = '{new_user}'\n"
+                elif line.startswith("password ="):
+                    line = f"password = '{new_pass}'\n"
+                lines.append(line)
+        with open("config.py", "w", encoding="utf-8") as f:
+            f.writelines(lines)
+        messagebox.showinfo("Success", "Database config updated. Please restart the app.")
+
+def edit_app_config():
+    new_table_dbf = simpledialog.askstring("DBF Table", "DBF table name:", initialvalue=config.table_name_dbf)
+    new_table_excel = simpledialog.askstring("Excel Table", "Excel table name:", initialvalue=config.table_name_excel)
+    new_table_datappm = simpledialog.askstring("Datappm Table", "Datappm table name:", initialvalue=config.table_name_datappm)
+    new_table_finmap = simpledialog.askstring("Finmap Table", "Finmap table name:", initialvalue=config.table_name_finmap)
+    new_token = simpledialog.askstring("Telegram Token", "Telegram BOT token:", initialvalue=config.TOKEN)
+    new_chat_id = simpledialog.askstring("Telegram Chat ID", "Telegram Chat ID:", initialvalue=config.CHAT_ID)
+
+    if all([new_table_dbf, new_table_excel, new_table_datappm, new_table_finmap, new_token, new_chat_id]):
+        lines = []
+        with open("config.py", "r", encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("table_name_dbf"):
+                    line = f"table_name_dbf = '{new_table_dbf}'\n"
+                elif line.startswith("table_name_excel"):
+                    line = f"table_name_excel = '{new_table_excel}'\n"
+                elif line.startswith("table_name_datappm"):
+                    line = f"table_name_datappm = '{new_table_datappm}'\n"
+                elif line.startswith("table_name_finmap"):
+                    line = f"table_name_finmap = '{new_table_finmap}'\n"
+                elif line.startswith("TOKEN"):
+                    line = f"TOKEN = '{new_token}'\n"
+                elif line.startswith("CHAT_ID"):
+                    line = f"CHAT_ID = '{new_chat_id}'\n"
+                lines.append(line)
+        with open("config.py", "w", encoding="utf-8") as f:
+            f.writelines(lines)
+        messagebox.showinfo("Success", "App config updated. Please restart the app.")
+
+
 # --- MAIN GUI ---
 def create_gui():
     global api_keys, combo, api_listbox
@@ -95,11 +154,14 @@ def create_gui():
     btn_pass = tk.Button(root, text="Show Password", command=show_pass, font=("Arial", 14), bg="green", fg="white")
     btn_pass.pack(pady=5)
 
+    tk.Button(root, text="Edit DB Config", command=edit_db_config, font=("Arial", 14), bg="green", fg="white").pack(pady=5)
+
+    tk.Button(root, text="Edit APP Config", command=edit_app_config, font=("Arial", 14), bg="green", fg="white").pack(pady=5)
+
+
     combo = ttk.Combobox(root, state="readonly", width=50)
     combo.pack(pady=5)
     update_combobox()
 
     root.mainloop()
 
-if __name__ == "__main__":
-    create_gui()
