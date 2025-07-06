@@ -14,8 +14,8 @@ table_name_excel = 'ExcelTransactions_New'
 table_name_datappm = 'datappm'
 table_name_finmap = 'FinmapTransactions'
 
-TOKEN = " "  # Telegram
-CHAT_ID = " "
+TOKEN = ' '
+CHAT_ID = ' '
 
 finmap_url = "https://api.finmap.online/v2.2/operations/list"
 finmap_headers = {
