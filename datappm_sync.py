@@ -1,5 +1,14 @@
 # datappm_sync.py
 
+import os
+import pandas as pd
+from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError
+from db_engine import engine
+from config import server, database, username, password, excel_path, table_name_datappm
+import requests
+from telegram_utils import send_telegram_message
+
 
 def sync_excel_to_sql():
     if not os.path.exists(excel_path):
