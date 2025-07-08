@@ -175,28 +175,35 @@ def create_gui():
         sql_app_combo.grid(row=0, column=1, padx=10, pady=5)
         sql_app_combo.set(getattr(config, "sql_app", "MS SQL"))
 
-        tk.Label(content_frame, text="Name", font=("Arial", 12)).grid(row=1, column=0, padx=10, pady=5, sticky="e")
+        tk.Label(content_frame, text="Server address", font=("Arial", 12)).grid(row=1, column=0, padx=10, pady=5, sticky="e")
+        entry_server= tk.Entry(content_frame, width=43)
+        entry_server.grid(row=1, column=1, padx=10, pady=5)
+        entry_server.insert(0, config.server)
+
+        tk.Label(content_frame, text="Name", font=("Arial", 12)).grid(row=2, column=0, padx=10, pady=5, sticky="e")
         entry_user = tk.Entry(content_frame, width=43)
-        entry_user.grid(row=1, column=1, padx=10, pady=5)
+        entry_user.grid(row=2, column=1, padx=10, pady=5)
         entry_user.insert(0, config.username)
 
-        tk.Label(content_frame, text="Password", font=("Arial", 12)).grid(row=2, column=0, padx=10, pady=5, sticky="e")
+        tk.Label(content_frame, text="Password", font=("Arial", 12)).grid(row=3, column=0, padx=10, pady=5, sticky="e")
         entry_pass = tk.Entry(content_frame, width=43, show="*")
-        entry_pass.grid(row=2, column=1, padx=10, pady=5)
+        entry_pass.grid(row=3, column=1, padx=10, pady=5)
         entry_pass.insert(0, config.password)
 
-        tk.Label(content_frame, text="Database", font=("Arial", 12)).grid(row=3, column=0, padx=10, pady=5, sticky="e")
+        tk.Label(content_frame, text="Database", font=("Arial", 12)).grid(row=4, column=0, padx=10, pady=5, sticky="e")
         entry_db = tk.Entry(content_frame, width=43)
-        entry_db.grid(row=3, column=1, padx=10, pady=5)
+        entry_db.grid(row=4, column=1, padx=10, pady=5)
         entry_db.insert(0, config.database)
 
-        tk.Label(content_frame, text="Table 1", font=("Arial", 12)).grid(row=4, column=0, padx=10, pady=5, sticky="e")
+        tk.Label(content_frame, text="Table 1", font=("Arial", 12)).grid(row=5, column=0, padx=10, pady=5, sticky="e")
         entry_table = tk.Entry(content_frame, width=43)
-        entry_table.grid(row=4, column=1, padx=10, pady=5)
+        entry_table.grid(row=5, column=1, padx=10, pady=5)
         entry_table.insert(0, getattr(config, "table_name_1", ""))
 
+    
+
         def save_config():
-            new_server = simpledialog.askstring("Server", "Enter server address:", initialvalue=config.server)
+            new_server = entry_server.get()
             new_user = entry_user.get()
             new_pass = entry_pass.get()
             new_db = entry_db.get()
@@ -220,8 +227,23 @@ def create_gui():
                     elif line.startswith("sql_app ="):
                             line = f"sql_app = '{new_sql_app}'\n"
                     elif line.startswith("table_name_1 ="):
-                            line = f"table_name_1 = '{new_table}'\n"
-                    updated_lines.append(line)
+                            line = f"table_name_1 = '{new_table}'\n"                
+                    updated_lines.append(line) 
+
+
+                keys = [line.split('=')[0].strip() for line in updated_lines]
+                if "sql_app" not in keys:
+                    updated_lines.append(f"sql_app = '{new_sql_app}'\n")
+                if "server" not in keys:
+                    updated_lines.append(f"server = '{new_server}'\n")
+                if "username" not in keys:
+                    updated_lines.append(f"username = '{new_user}'\n")
+                if "password" not in keys:
+                    updated_lines.append(f"password = '{new_pass}'\n")
+                if "database" not in keys:
+                    updated_lines.append(f"database = '{new_db}'\n")
+                if "table_name_1" not in keys:
+                    updated_lines.append(f"table_name_1 = '{new_table}'\n")                         
                     
                 required_fields = {
                     "server": new_server,
@@ -231,10 +253,7 @@ def create_gui():
                     "sql_app": new_sql_app,
                     "table_name_1": new_table
                     }
-                existing_keys = [line.split("=")[0].strip() for line in updated_lines]
-                for key, val in required_fields.items():
-                    if key not in existing_keys:
-                            updated_lines.append(f"{key} = '{val}'\n")
+                
 
                 with open("config.py", "w", encoding="utf-8") as f:
                     f.writelines(updated_lines)
@@ -243,7 +262,7 @@ def create_gui():
             else:
                     messagebox.showwarning("Warning", "Please fill in all fields.")
 
-        tk.Button(content_frame, text="Save", command=save_config, font=("Arial", 14), bg="green", fg="white").grid(row=5, column=0, columnspan=2, pady=15)
+        tk.Button(content_frame, text="Save", command=save_config, font=("Arial", 14), bg="green", fg="white").grid(row=6, column=0, columnspan=2, pady=15)
     
     def load_file_source():
         clear_content()

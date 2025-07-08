@@ -23,3 +23,4 @@ finmap_headers = {
 }
 KEYS_FILE = "api_keys.json"
 sql_app = 'MS SQL'
+table_name_1 = 'Table'
