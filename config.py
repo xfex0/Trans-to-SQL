@@ -22,3 +22,4 @@ finmap_headers = {
     "apiKey": " "
 }
 KEYS_FILE = "api_keys.json"
+sql_app = 'MS SQL'
