@@ -198,9 +198,7 @@ def create_gui():
         tk.Label(content_frame, text="Table 1", font=("Arial", 12)).grid(row=5, column=0, padx=10, pady=5, sticky="e")
         entry_table = tk.Entry(content_frame, width=43)
         entry_table.grid(row=5, column=1, padx=10, pady=5)
-        entry_table.insert(0, getattr(config, "table_name_1", ""))
-
-    
+        entry_table.insert(0, getattr(config, "table_name_1", ""))    
 
         def save_config():
             new_server = entry_server.get()
@@ -283,7 +281,11 @@ def create_gui():
         tk.Label(content_frame, text="Type", font=("Arial", 12)).grid(row=1, column=0, padx=10, pady=10, sticky="e")
         file_type_combo = ttk.Combobox(content_frame, values=["DBF", "Excel", "CSV", "PDF", "TXT"], state="readonly", width=47)
         file_type_combo.grid(row=1, column=1, columnspan=2, padx=10, pady=10)
-        file_type_combo.set("Excel")    
+        file_type_combo.set("Excel")         
+    
+    # def table_edit(): - show how must look table 
+        
+        
 
     tk.Button(menu_frame, text="Start", width=25, height=2, command=load_start_screen).pack(pady=2)
     tk.Button(menu_frame, text="Server Authenticator", width=25, height=2, command=load_server_config).pack(pady=2)
@@ -292,6 +294,5 @@ def create_gui():
 
     load_start_screen()
     root.mainloop()
-
 
 create_gui()
