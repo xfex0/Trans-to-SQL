@@ -1,3 +1,4 @@
+#base 
 import tkinter as tk
 from tkinter import messagebox, ttk, simpledialog, filedialog
 from gui.API.api_keys_manager import load_keys, save_keys
@@ -8,8 +9,9 @@ from handlers.finmap_loader import load_finmap_to_sql
 import json
 import os
 import config
-from gui2 import run_all_tasks, add_api_key, update_combobox, update_api_list, del_api_key_from_list
-
+from gui.gui2 import run_all_tasks, add_api_key, update_combobox, update_api_list, del_api_key_from_list
+from gui.UI_base.base import run_all_tasks, add_api_key, update_combobox, update_api_list, del_api_key_from_list
+from config_editor import edit_db_config, edit_app_config
 
 KEYS_FILE = "api_keys.json"
 
@@ -174,8 +176,7 @@ def create_gui():
         file_type_combo.grid(row=1, column=1, columnspan=2, padx=10, pady=10)
         file_type_combo.set("Excel")         
     
-    # def table_edit(): - show how must look table 
-        
+           
         
 
     tk.Button(menu_frame, text="Start", width=25, height=2, command=load_start_screen).pack(pady=2)

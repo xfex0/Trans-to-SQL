@@ -9,7 +9,7 @@ from handlers.excel_handler import read_excel_and_upload
 from handlers.datappm_sync import sync_excel_to_sql, sync_sql_to_excel, compare_excel_sql
 from handlers.finmap_loader import load_finmap_to_sql
 from tkinter import filedialog
-from gui.UI_base import create_gui 
+from gui.UI_base.base  import run_all_tasks, add_api_key, update_combobox, update_api_list, del_api_key_from_list
 
 KEYS_FILE = "api_keys.json"
 
