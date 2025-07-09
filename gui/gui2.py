@@ -282,10 +282,6 @@ def create_gui():
         file_type_combo.grid(row=1, column=1, columnspan=2, padx=10, pady=10)
         file_type_combo.set("Excel")         
     
-    # def table_edit(): - show how must look table 
-        
-        
-
     tk.Button(menu_frame, text="Start", width=25, height=2, command=load_start_screen).pack(pady=2)
     tk.Button(menu_frame, text="Server Authenticator", width=25, height=2, command=load_server_config).pack(pady=2)
     tk.Button(menu_frame, text="API Source", width=25, height=2, command=load_api_manager).pack(pady=2)
@@ -294,4 +290,3 @@ def create_gui():
     load_start_screen()
     root.mainloop()
 
-create_gui() 

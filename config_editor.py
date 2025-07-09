@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import simpledialog, messagebox
-from config import config
+import config
 
 def edit_db_config():
     new_server = simpledialog.askstring("Edit Server", "Enter new server:", initialvalue=config.server)

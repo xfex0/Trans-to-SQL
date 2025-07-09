@@ -10,6 +10,8 @@ import json
 import os
 import config
 from config_editor import edit_db_config, edit_app_config
+from gui.gui2 import run_all_tasks, add_api_key, del_api_key_from_list, update_combobox, update_api_list
+
 
 KEYS_FILE = "api_keys.json"
 
