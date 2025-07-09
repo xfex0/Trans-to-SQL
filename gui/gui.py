@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox, ttk, simpledialog
-from api_keys_manager import load_keys, save_keys
-from dbf_handler import process_all_dbf_files
-from excel_handler import read_excel_and_upload
-from datappm_sync import sync_excel_to_sql, sync_sql_to_excel, compare_excel_sql
-from finmap_loader import load_finmap_to_sql
+from gui.API.api_keys_manager import load_keys, save_keys
+from handlers.dbf_handler import process_all_dbf_files
+from handlers.excel_handler import read_excel_and_upload
+from handlers.datappm_sync import sync_excel_to_sql, sync_sql_to_excel, compare_excel_sql
+from handlers.finmap_loader import load_finmap_to_sql
 import json
 import os
 import config  

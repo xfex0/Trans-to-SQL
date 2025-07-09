@@ -3,6 +3,8 @@ import json
 import os
 from config import KEYS_FILE
 
+KEYS_FILE = "api_keys.json"
+
 def load_keys():
     if os.path.exists(KEYS_FILE):
         with open(KEYS_FILE, "r") as f:
